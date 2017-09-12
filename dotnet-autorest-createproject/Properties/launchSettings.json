@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "dotnet-autorest-createproject": {
+      "commandName": "Project",
+      "commandLineArgs": "-o c:\\temp\\a -s c:\\temp\\petstore.json"
+    }
+  }
+}

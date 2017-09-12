@@ -1,0 +1,25 @@
+﻿@using ESW.autorest.createProject.Models
+@model ProjectFileViewModel
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>@Model.TFM</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>eShopWorld.@(Model.ProjectName).ClientLibrary</PackageId>
+    <Version>@Model.Version</Version>
+    <Authors>eShopWorld</Authors>
+    <Company>eShopWorld</Company>
+    <Product>product</Product>
+    <Description>client side library for @Model.ProjectName API</Description>
+    <Copyright>eShopWorld</Copyright>    
+    <AssemblyVersion>@Model.Version</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+</Project>
