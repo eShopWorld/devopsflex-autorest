@@ -2,7 +2,7 @@
   "profiles": {
     "dotnet-autorest-createproject": {
       "commandName": "Project",
-      "commandLineArgs": "-o c:\\temp\\generatedAutoRestCsProj -s http://petstore.swagger.io/v2/swagger.json"
+      "commandLineArgs": "-o c:\\temp\\generatedAutoRestCsProj -s http://esw-fabric-dev.northeurope.cloudapp.azure.com:8883/swagger/v1/swagger.json"
     }
   }
 }

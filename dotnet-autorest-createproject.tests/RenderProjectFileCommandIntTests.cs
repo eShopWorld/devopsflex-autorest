@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using ESW.autorest.createProject.Commands;
@@ -20,7 +21,7 @@ namespace ESW.autorest.createProject.tests
             serviceProvider = services.BuildServiceProvider();                      
         }
 
-        [Fact]
+        [Fact, Trait("Category", "Integration")]
         public void RenderView_GeneratesExpectedContent()
         {
             

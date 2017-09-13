@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace ESW.autorest.createProject
@@ -28,12 +29,17 @@ namespace ESW.autorest.createProject
                         new JsonTextReader(new StringReader(json)));
 
                 return fragment?.Info != null
-                    ? (SanitizeTitle(fragment.Info.Title), fragment.Info.Version)
+                    ? (SanitizeTitle(fragment.Info.Title), SanitizeVersion(fragment.Info.Version))
                     : (null, null);
             }
         }
 
-        private static string SanitizeTitle(string unsanitized)
+        /// <summary>
+        /// sanitise title so that csproj can be named as such
+        /// </summary>
+        /// <param name="unsanitized">swagger title as it comes from swagger</param>
+        /// <returns>sanitised version</returns>
+        public  static string SanitizeTitle(string unsanitized)
         {
             return unsanitized?
                 .Replace(" ", "")
@@ -50,6 +56,18 @@ namespace ESW.autorest.createProject
                 .Replace("|", "")
                 .Replace("#", "")
                 .Replace("%", "");
+        }
+
+        /// <summary>
+        /// sanitise version coming from the swagger so that we can use it within the csproj and version the nuget package ultimately
+        /// </summary>
+        /// <param name="unsanitised">unsanitised version coming from the swagger</param>
+        /// <returns>sanitised version</returns>
+        public static string SanitizeVersion(string unsanitised)
+        {
+            Regex pattern = new Regex("\\d+(\\.\\d+)*");
+            Match m = pattern.Match(unsanitised);
+            return m?.Value ?? throw new ApplicationException($"Unrecognized version number {unsanitised}");
         }
 
         public class SwaggerFragment
