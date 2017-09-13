@@ -45,7 +45,7 @@ namespace ESW.autorest.createProject
                 var serviceScope = provider.GetRequiredService<IServiceScopeFactory>();
                 using (serviceScope.CreateScope())
                 {
-                    var jsonFilePath = options.SwaggerJsonPath;
+                    var jsonFilePath = options.SwaggerJsonUrl;
                     var swaggerInfo = SwaggerJsonParser.ParsetOut(jsonFilePath);
                     var projectFileName = swaggerInfo.Item1 + ".csproj";
                     

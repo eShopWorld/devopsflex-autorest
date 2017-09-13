@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using Newtonsoft.Json;
 
 namespace ESW.autorest.createProject
@@ -12,18 +13,24 @@ namespace ESW.autorest.createProject
         /// <summary>
         /// parse out title and version and return as a tuple
         /// </summary>
-        /// <param name="filePath">filepath to the json file with swagger metadata</param>
+        /// <param name="fileUrl">url to the json file with swagger metadata</param>
         /// <returns>tuple with sanitised title and version</returns>
-        public static (string, string) ParsetOut(string filePath)
+        public static (string, string) ParsetOut(string fileUrl)
         {
-            if (!File.Exists(filePath))
-                throw new ApplicationException($"Invalid path to swagger json file {filePath}");
+            if (string.IsNullOrWhiteSpace(fileUrl))
+                throw new ApplicationException($"Invalid url to swagger json file {fileUrl}");
+            
+            using (var client = new WebClient())
+            {
+                var json = client.DownloadString(fileUrl);
+                var fragment = JsonSerializer.CreateDefault()
+                    .Deserialize<SwaggerFragment>(
+                        new JsonTextReader(new StringReader(json)));
 
-            var fragment = JsonSerializer.CreateDefault()
-                .Deserialize<SwaggerFragment>(
-                    new JsonTextReader(new StreamReader(new FileStream(filePath, FileMode.Open))));
-
-            return fragment?.Info != null  ? (SanitizeTitle(fragment.Info.Title), fragment.Info.Version) : (null, null);
+                return fragment?.Info != null
+                    ? (SanitizeTitle(fragment.Info.Title), fragment.Info.Version)
+                    : (null, null);
+            }
         }
 
         private static string SanitizeTitle(string unsanitized)

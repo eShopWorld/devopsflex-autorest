@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-autorest-createproje
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-autorest-createproject.tests", "dotnet-autorest-createproject.tests\dotnet-autorest-createproject.tests.csproj", "{3741A5D4-4CB4-4874-883F-302619B2EA20}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CF020B63-738E-449C-A99D-49526BBDE525}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3741A5D4-4CB4-4874-883F-302619B2EA20} = {CF020B63-738E-449C-A99D-49526BBDE525}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A97A0F3F-7075-498E-8D39-376889F87FA7}

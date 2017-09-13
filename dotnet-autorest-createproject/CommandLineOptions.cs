@@ -22,9 +22,9 @@ namespace ESW.autorest.createProject
 
 
         /// <summary>
-        /// path to the swagger json file
+        /// url to the swagger json file
         /// </summary>
-        public string SwaggerJsonPath { get; set; }
+        public string SwaggerJsonUrl { get; set; }
 
         /// <summary>
         /// output folder path to generate files into
@@ -66,7 +66,7 @@ namespace ESW.autorest.createProject
 
             //target folder
             var swaggerFileOption = app.Option("-s|--swagger <name>",
-                "file path to the swagger JSON file",
+                "url to the swagger JSON file",
                 CommandOptionType.SingleValue);
 
             var outputFolderOption = app.Option("-o|--output <outputFolder>",
@@ -97,7 +97,7 @@ namespace ESW.autorest.createProject
 
                 //pass back to execution
                 IsHelp = help.HasValue();
-                SwaggerJsonPath = swaggerFileOption.Value();
+                SwaggerJsonUrl = swaggerFileOption.Value();
                 OutputFolder = outputFolderOption.Value();
                 TFM = tfmOption.Value() ?? "netstandard2.0";
                 return 0;
