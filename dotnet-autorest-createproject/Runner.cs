@@ -14,7 +14,10 @@ using Microsoft.Extensions.PlatformAbstractions;
 
 namespace ESW.autorest.createProject
 {
-    public class Loader
+    /// <summary>
+    /// application entry point
+    /// </summary>
+    public class Runner
     {
         public static void Main(string[] args)
         {      
@@ -48,10 +51,7 @@ namespace ESW.autorest.createProject
                     
                     //generate project file
                     var projectFileCommand = provider.GetRequiredService<RenderProjectFileCommand>();                    
-                    projectFileCommand.Render(new ProjectFileViewModel{TFM = options.TFM, ProjectName = swaggerInfo.Item1, Version = swaggerInfo.Item2}, Path.Combine(options.OutputFolder, projectFileName));
-                    //generate SLN file
-                    var slnFileCommand = provider.GetRequiredService<RenderSLNFileCommand>();
-                    slnFileCommand.Render(new SLNFileViewModel{ProjectFileName = projectFileName, ProjectName = swaggerInfo.Item1}, Path.Combine(options.OutputFolder, swaggerInfo.Item1+ ".sln"));
+                    projectFileCommand.Render(new ProjectFileViewModel{TFM = options.TFM, ProjectName = swaggerInfo.Item1, Version = swaggerInfo.Item2}, Path.Combine(options.OutputFolder, projectFileName));                  
                 }           
             }
             catch (Exception)
@@ -66,7 +66,7 @@ namespace ESW.autorest.createProject
             }
         }
 
-        private static void ConfigureDefaultServices(IServiceCollection services, string customApplicationBasePath)
+        public static void ConfigureDefaultServices(IServiceCollection services, string customApplicationBasePath)
         {
             var applicationEnvironment = PlatformServices.Default.Application;
 
@@ -103,7 +103,6 @@ namespace ESW.autorest.createProject
             services.AddLogging();
             services.AddMvc();
             services.AddTransient<RenderProjectFileCommand>();
-            services.AddTransient<RenderSLNFileCommand>();
         }
     }
 }
