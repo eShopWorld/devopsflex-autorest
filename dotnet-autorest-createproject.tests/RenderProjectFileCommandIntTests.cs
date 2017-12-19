@@ -31,8 +31,8 @@ namespace ESW.autorest.createProject.tests
                 var sut = serviceProvider.GetRequiredService<RenderProjectFileCommand>();
 
                 //generate project file                
-                var output = sut.RenderViewToString(new ProjectFileViewModel{ProjectName = "test project", TFM = "testTFM", Version = "1.2.3.4"}, "Views\\TestTemplate.cshtml");
-                output.Should().Be("lorem ipsum tfm=testTFM version=1.2.3.4 projectName=test project");
+                var output = sut.RenderViewToString(new ProjectFileViewModel{ProjectName = "test project", TFMs = new []{ "testTFM1", "testTFM2"}, Version = "1.2.3.4"}, "Views\\TestTemplate.cshtml");
+                output.Should().Be("lorem ipsum tfm=testTFM1,testTFM2 version=1.2.3.4 projectName=test project");
             }
         }
     }

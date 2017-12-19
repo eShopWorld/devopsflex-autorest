@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.CommandLineUtils;
 
 namespace ESW.autorest.createProject
@@ -35,7 +36,7 @@ namespace ESW.autorest.createProject
         /// 
         /// with netstandard 1.5 we cover both full framework as well as .net core apps
         /// </summary>
-        public string TFM { get; set; } = "netstandard1.5";
+        public List<string> TFMs { get; set; }
 
         public static CommandLineOptions Parse(string[] args)
         {
@@ -74,7 +75,7 @@ namespace ESW.autorest.createProject
                 CommandOptionType.SingleValue);
 
             var tfmOption = app.Option("-t|--tfm <tfm>", "Target framework moniker name (default: netstandard1.5)",
-                CommandOptionType.SingleValue);
+                CommandOptionType.MultipleValue);
        
             app.OnExecute(() =>
             {
@@ -99,7 +100,7 @@ namespace ESW.autorest.createProject
                 IsHelp = help.HasValue();
                 SwaggerJsonUrl = swaggerFileOption.Value();
                 OutputFolder = outputFolderOption.Value();
-                TFM = tfmOption.Value() ?? "netstandard2.0";
+                TFMs = tfmOption.Values==null || tfmOption.Values.Count==0 ? new [] { "net462","netstandard2.0" }.ToList() : tfmOption.Values;
                 return 0;
             });
         }

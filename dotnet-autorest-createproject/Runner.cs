@@ -51,7 +51,7 @@ namespace ESW.autorest.createProject
                     
                     //generate project file
                     var projectFileCommand = provider.GetRequiredService<RenderProjectFileCommand>();                    
-                    projectFileCommand.Render(new ProjectFileViewModel{TFM = options.TFM, ProjectName = swaggerInfo.Item1, Version = swaggerInfo.Item2}, Path.Combine(options.OutputFolder, projectFileName));                  
+                    projectFileCommand.Render(new ProjectFileViewModel{TFMs = options.TFMs.ToArray(), ProjectName = swaggerInfo.Item1, Version = swaggerInfo.Item2}, Path.Combine(options.OutputFolder, projectFileName));                  
                 }           
             }
             catch (Exception)
