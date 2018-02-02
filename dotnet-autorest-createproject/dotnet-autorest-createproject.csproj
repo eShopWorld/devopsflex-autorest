@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <StartupObject>ESW.autorest.createProject.Runner</StartupObject>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <RootNamespace>ESW.autorest.createProject</RootNamespace>
     <ApplicationIcon />
