@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>eShopWorld.AutoRest.CreateProject</id>
-    <version>1.4</version>
+    <version>1.5</version>
 
     <authors>Oisin Haken</authors>
     <owners>eShopWorld</owners>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>autorest backed client side library generator for APIs exposing swagger metadata</description>
   
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2021</copyright>
     <tags>autorest dotnet netstandard</tags>
    
   </metadata>
