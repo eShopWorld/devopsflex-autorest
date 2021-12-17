@@ -28,6 +28,11 @@ namespace ESW.autorest.createProject
         public string SwaggerJsonUrl { get; set; }
 
         /// <summary>
+        /// Auto Rest Package Version
+        /// </summary>
+        public string AutoRestPackageVersion { get; set; }
+
+        /// <summary>
         /// output folder path to generate files into
         /// </summary>
         public string OutputFolder { get; set; }

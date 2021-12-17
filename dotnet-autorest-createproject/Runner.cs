@@ -48,10 +48,15 @@ namespace ESW.autorest.createProject
                     var jsonFilePath = options.SwaggerJsonUrl;
                     var swaggerInfo = SwaggerJsonParser.ParsetOut(jsonFilePath);
                     var projectFileName = swaggerInfo.Item1 + ".csproj";
-                    
+
+                    var projectVersion = !string.IsNullOrEmpty(options.AutoRestPackageVersion) ?
+                        options.AutoRestPackageVersion :
+                        swaggerInfo.Item2;
                     //generate project file
-                    var projectFileCommand = provider.GetRequiredService<RenderProjectFileCommand>();                    
-                    projectFileCommand.Render(new ProjectFileViewModel{TFMs = options.TFMs.ToArray(), ProjectName = swaggerInfo.Item1, Version = swaggerInfo.Item2}, Path.Combine(options.OutputFolder, projectFileName));                  
+                    var projectFileCommand = provider.GetRequiredService<RenderProjectFileCommand>();
+                    projectFileCommand.Render(
+                        new ProjectFileViewModel { TFMs = options.TFMs.ToArray(), ProjectName = swaggerInfo.Item1, Version = projectVersion },
+                        Path.Combine(options.OutputFolder, projectFileName));
                 }           
             }
             catch (Exception)
