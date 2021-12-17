@@ -81,7 +81,12 @@ namespace ESW.autorest.createProject
 
             var tfmOption = app.Option("-t|--tfm <tfm>", "Target framework moniker name (default: netstandard1.5)",
                 CommandOptionType.MultipleValue);
-       
+
+            var autoRestPackageVersion = app.Option("-v|--version <version>",
+                "AutoRest Package Version",
+                CommandOptionType.SingleValue);
+
+
             app.OnExecute(() =>
             {
                 //validation first for required params
@@ -106,6 +111,7 @@ namespace ESW.autorest.createProject
                 SwaggerJsonUrl = swaggerFileOption.Value();
                 OutputFolder = outputFolderOption.Value();
                 TFMs = tfmOption.Values==null || tfmOption.Values.Count==0 ? new [] { "net462","netstandard2.0" }.ToList() : tfmOption.Values;
+                AutoRestPackageVersion = autoRestPackageVersion.HasValue() ? autoRestPackageVersion.Value() : string.Empty;
                 return 0;
             });
         }
