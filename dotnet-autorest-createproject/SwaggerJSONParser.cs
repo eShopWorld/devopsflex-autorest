@@ -11,27 +11,37 @@ namespace ESW.autorest.createProject
     /// </summary>
     public static class SwaggerJsonParser
     {
+        internal static (string projectName, string projectVersion) ExtractMetadataInternal(string swaggerContents,
+            string autoRestPackageVersion)
+        {
+            if (string.IsNullOrWhiteSpace(swaggerContents))
+                throw new ArgumentException("Invalid swagger json content: null or empty");            
+            
+            var fragment = JsonSerializer.CreateDefault().Deserialize<SwaggerFragment>(new JsonTextReader(new StringReader(swaggerContents)));
+
+            var projectVersion = !string.IsNullOrEmpty(autoRestPackageVersion) ?
+                autoRestPackageVersion :
+                SanitizeVersion(fragment.Info.Version);
+
+            return fragment?.Info != null
+                ? ($"{SanitizeTitle(fragment.Info.Title)}.AutoRestClient", projectVersion)
+                : (null, null);            
+        }
+        
         /// <summary>
-        /// parse out title and version and return as a tuple
+        /// Extract metadata from swagger json
         /// </summary>
         /// <param name="fileUrl">url to the json file with swagger metadata</param>
+        /// <param name="autoRestPackageVersion"></param>
         /// <returns>tuple with sanitised title and version</returns>
-        public static (string, string) ParsetOut(string fileUrl)
+        public static (string projectName, string projectVersion) ExtractMetadata(string fileUrl, string autoRestPackageVersion)
         {
             if (string.IsNullOrWhiteSpace(fileUrl))
-                throw new ApplicationException($"Invalid url to swagger json file {fileUrl}");
-            
-            using (var client = new WebClient())
-            {
-                var json = client.DownloadString(fileUrl);
-                var fragment = JsonSerializer.CreateDefault()
-                    .Deserialize<SwaggerFragment>(
-                        new JsonTextReader(new StringReader(json)));
+                throw new ArgumentException($"Invalid url to swagger json file {fileUrl}");
 
-                return fragment?.Info != null
-                    ? (SanitizeTitle(fragment.Info.Title), SanitizeVersion(fragment.Info.Version))
-                    : (null, null);
-            }
+            using var client = new WebClient();
+            var json = client.DownloadString(fileUrl);
+            return ExtractMetadataInternal(json, autoRestPackageVersion);
         }
 
         /// <summary>
