@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
     <StartupObject>ESW.autorest.createProject.Runner</StartupObject>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -14,6 +14,7 @@
     <Description>autorest backed client side library generator for APIs exposing swagger metadata</Description>
     <PackageId>eShopWorld.AutoRest.CreateProject</PackageId>
     <Authors>Oisin Haken</Authors>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

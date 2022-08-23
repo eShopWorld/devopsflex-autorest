@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using ESW.autorest.createProject.Commands;
 using ESW.autorest.createProject.Models;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.PlatformAbstractions;
+
+[assembly:InternalsVisibleTo("dotnet-autorest-createproject.tests")]
 
 namespace ESW.autorest.createProject
 {
@@ -46,16 +49,13 @@ namespace ESW.autorest.createProject
                 using (serviceScope.CreateScope())
                 {
                     var jsonFilePath = options.SwaggerJsonUrl;
-                    var swaggerInfo = SwaggerJsonParser.ParsetOut(jsonFilePath);
-                    var projectFileName = swaggerInfo.Item1 + ".csproj";
-
-                    var projectVersion = !string.IsNullOrEmpty(options.AutoRestPackageVersion) ?
-                        options.AutoRestPackageVersion :
-                        swaggerInfo.Item2;
+                    var (projectName, projectVersion) = SwaggerJsonParser.ExtractMetadata(jsonFilePath, options.AutoRestPackageVersion);
+                    var projectFileName = $"{projectName}.csproj";
+                    
                     //generate project file
                     var projectFileCommand = provider.GetRequiredService<RenderProjectFileCommand>();
                     projectFileCommand.Render(
-                        new ProjectFileViewModel { TFMs = options.TFMs.ToArray(), ProjectName = swaggerInfo.Item1, Version = projectVersion },
+                        new ProjectFileViewModel { TFMs = options.TFMs.ToArray(), ProjectName = projectName, Version = projectVersion },
                         Path.Combine(options.OutputFolder, projectFileName));
                 }           
             }
